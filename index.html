@@ -232,8 +232,10 @@ body.noscroll{overflow:hidden}
 .mitra i{width:1px;height:26px;background:#D5D9DE;display:block}
 .sd-logo{background:#fff;border-radius:8px;padding:10px 10px 8px;display:flex;flex-direction:column;gap:8px;align-items:center}
 .sd-logo .main{height:40px;width:auto;max-width:100%}
-.sd-logo .row{display:flex;gap:10px;align-items:center;justify-content:space-between;flex-wrap:nowrap;padding-top:7px;border-top:1px solid #E3E6EA;width:100%}
-.sd-logo .row img{height:20px;width:auto;max-width:34%;object-fit:contain}
+.sd-logo .row{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px 10px;align-items:center;justify-items:center;padding-top:7px;border-top:1px solid #E3E6EA;width:100%}
+.sd-logo .row.n4{grid-template-columns:repeat(2,minmax(0,1fr))}
+.sd-logo .row img{width:100%;height:24px;object-fit:contain;display:block}
+.sd-logo .main{object-fit:contain}
 /* absensi grid */
 .absgrid td{padding:6px 6px}
 .absgrid select,.absgrid input{min-height:40px;padding:6px 8px}
@@ -666,7 +668,7 @@ function paintShell(){
   const p = P();
   $('#sdProj').textContent = p.proyek; $('#sdSub').textContent = p.sub;
   const sl = $('#sdLogo'); const key = logoUtama() + p.mitra;
-  if (sl.dataset.k !== key){ sl.dataset.k = key; sl.innerHTML = `<div class="sd-logo"><img class="main" src="${esc(logoUtama())}" alt="Logo ${esc(p.nama)}">${p.mitra === 'Tidak' ? '' : `<div class="row">${MITRA.filter(([k]) => !(k === 'aen' && !p.logo)).map(([k,n]) => `<img src="${LOGO[k]}" alt="${n}" title="${n}">`).join('')}</div>`}</div>`; }
+  if (sl.dataset.k !== key){ sl.dataset.k = key; sl.innerHTML = `<div class="sd-logo"><img class="main" src="${esc(logoUtama())}" alt="Logo ${esc(p.nama)}">${p.mitra === 'Tidak' ? '' : `<div class="row n${MITRA.filter(([k]) => !(k === 'aen' && !p.logo)).length}">${MITRA.filter(([k]) => !(k === 'aen' && !p.logo)).map(([k,n]) => `<img src="${LOGO[k]}" alt="${n}" title="${n}">`).join('')}</div>`}</div>`; }
   $('#nav').innerHTML = MENUS.filter(m => lv(m[0]) >= 1).map(([k,l]) => `<a href="#${k}" class="${PAGE===k?'on':''}" onclick="go('${k}');return false" ${PAGE===k?'aria-current="page"':''}>${ic(k,20)}${l}</a>`).join('');
   $('#meNama').textContent = SES.nama; $('#mePeran').textContent = ROLES[SES.peran] || SES.peran;
   $('#meAva').textContent = SES.nama.split(/\s+/).map(s => s[0]).join('').slice(0,2).toUpperCase();
